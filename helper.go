@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -42,4 +43,35 @@ func DealTime(timestring string) string {
 	timestamp := t.Add(d)
 	//fmt.Println(timestamp, err)
 	return timestamp.Format("2006/01/02-15:04") //string
+}
+
+/*
+panelsjson := fmt.Sprintf("[{\"col\":1,\"id\":\"%s\",\"row\":1,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\"%s\",\"row\":1,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"col\":1,\"id\":\"%s\",\"row\":2,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\"%s\",\"row\":2,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"col\":1,\"id\":\"%s\",\"row\":3,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\"%s\",\"row\":3,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"}]", vsList[0], vsList[1], vsList[2], vsList[3], vsList[4], vsList[5])
+*/
+
+func makePanelsjson(number int, vsList []string) (list string) {
+	var jsonList []string
+	list = ""
+	//a := "{\\\"c ol\\\":1,\\\"id\\\":\\\"%s\",\\\"row\\\":1,\\\"size_x\\\":6,\\\"size_y\\\":4,\\\"type\\\":\\\"visualization\\\"}"
+
+	for v := 1; v <= num; v++ {
+		//fmt.Println("=--")
+		panelsjson := fmt.Sprintf("{\\\"col\\\":%d,\\\"id\\\":\\\"%s\\\",\\\"row\\\":1,\\\"size_x\\\":6,\\\"size_y\\\":4,\\\"type\\\":\\\"visualization\\\"}", v, vsList[v-1])
+		//fmt.Println(panelsjson)
+		jsonList = append(jsonList, panelsjson)
+		//fmt.Println("=--")
+	}
+
+	//panelsjson := fmt.Sprintf("{\\\"col\\\":%d,\\\"id\\\":\\\"%s\\\",\\\"row\\\":1,\\\"size_x\\\":6,\\\"size_y\\\":4,\\\"type\\\":\\\"visualization\\\"}", 1, "vlist1")
+
+	//fmt.Println(jsonList)
+	for _, v := range jsonList[:len(jsonList)-1] {
+		list = list + v + ","
+	}
+	list = list + jsonList[len(jsonList)-1]
+	fmt.Println("[" + list + "]")
+	return list
+
+	//panelsjson := fmt.Sprintf("[{\"col\":1,\"id\":\"%s\",\"row\":1,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"}]", "hahah")
+
 }
