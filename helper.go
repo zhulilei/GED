@@ -54,9 +54,9 @@ func makePanelsjson(number int, vsList []string) (list string) {
 	list = ""
 	//a := "{\\\"c ol\\\":1,\\\"id\\\":\\\"%s\",\\\"row\\\":1,\\\"size_x\\\":6,\\\"size_y\\\":4,\\\"type\\\":\\\"visualization\\\"}"
 
-	for v := 1; v <= num; v++ {
+	for v := 1; v <= number; v++ {
 		//fmt.Println("=--")
-		panelsjson := fmt.Sprintf("{\\\"col\\\":%d,\\\"id\\\":\\\"%s\\\",\\\"row\\\":1,\\\"size_x\\\":6,\\\"size_y\\\":4,\\\"type\\\":\\\"visualization\\\"}", v, vsList[v-1])
+		panelsjson := fmt.Sprintf("{\\\"col\\\":1,\\\"id\\\":\\\"%s\\\",\\\"row\\\":%d,\\\"size_x\\\":6,\\\"size_y\\\":4,\\\"type\\\":\\\"visualization\\\"}", vsList[v-1], v)
 		//fmt.Println(panelsjson)
 		jsonList = append(jsonList, panelsjson)
 		//fmt.Println("=--")
@@ -70,7 +70,8 @@ func makePanelsjson(number int, vsList []string) (list string) {
 	}
 	list = list + jsonList[len(jsonList)-1]
 	fmt.Println("[" + list + "]")
-	return list
+	alist := "[" + list + "]"
+	return alist
 
 	//panelsjson := fmt.Sprintf("[{\"col\":1,\"id\":\"%s\",\"row\":1,\"size_x\":6,\"size_y\":4,\"type\":\"visualization\"}]", "hahah")
 

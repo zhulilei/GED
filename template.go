@@ -4,6 +4,7 @@ import (
 	"fmt"
 	_ "github.com/gorilla/mux"
 	"net/http"
+	//"strconv"
 )
 
 func Nginxtemp(w http.ResponseWriter, r *http.Request) {
@@ -15,13 +16,16 @@ func Nginxtemp(w http.ResponseWriter, r *http.Request) {
 	index := existItem["index"]
 	fromtime := existItem["from"]
 	totime := existItem["to"]
+	//topX := existItem["topX"]
 
-	if baseCode := NginxtempBase(index, domain); baseCode != 201 {
+	topX := 10
+
+	if baseCode := NginxtempBase(index, domain, topX); baseCode != 201 {
 		res := DataPack(baseCode, nil, "make-base-error")
 		writeBody(res, w, http.StatusInternalServerError)
 		return
 	} else {
-		domainUri := Geturi(index, domain, fromtime, totime)
+		domainUri := Geturi(index, domain, fromtime, totime, topX)
 		fmt.Println("====")
 		fmt.Println(domainUri)
 		fmt.Println("====")
@@ -35,7 +39,7 @@ func Nginxtemp(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if dashCode := Nginxdashboard(domain); dashCode != 201 {
+	if dashCode := Nginxdashboard(domain, topX); dashCode != 201 {
 		res := DataPack(dashCode, nil, "error")
 		writeBody(res, w, http.StatusInternalServerError)
 		return

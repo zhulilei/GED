@@ -8,7 +8,7 @@ import (
 
 var uri map[string][]string
 
-func Geturi(index, domain, fromtime, totime string) map[string][]string {
+func Geturi(index, domain, fromtime, totime string, topX int) map[string][]string {
 	var uriList []string
 	uri = make(map[string][]string)
 	client, err := elastic.NewClient(
@@ -22,7 +22,7 @@ func Geturi(index, domain, fromtime, totime string) map[string][]string {
 
 	//dateRangeAgg := elastic.NewRangeQuery("@timestamp").From("2016/09/28-06:39").To("2016/09/28-06:40").Format("yyyy/MM/dd-HH:mm")
 	dateRangeAgg := elastic.NewRangeQuery("@timestamp").From(from).To(to).Format("yyyy/MM/dd-HH:mm")
-	aggline := elastic.NewTermsAggregation().Field("uri.raw").Size(5).OrderByCountDesc()
+	aggline := elastic.NewTermsAggregation().Field("uri.raw").Size(topX).OrderByCountDesc()
 	termQuery := elastic.NewTermQuery("host.raw", domain)
 
 	bq := elastic.NewBoolQuery()
